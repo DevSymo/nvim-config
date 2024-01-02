@@ -6,8 +6,19 @@ return {
     "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
     "MunifTanjim/nui.nvim",
   },
-  config = function()
-    vim.keymap.set('n', '<C-b>', ':Neotree filesystem reveal left<CR>', {})
-  end
+  opts = {
+    -- Initialize the global variable
+    _G.NEOTREE_VISIBLE == false,
+
+    vim.keymap.set('n', '<C-b>', function()
+      if _G.NEOTREE_VISIBLE then
+        vim.cmd('Neotree close')
+        _G.NEOTREE_VISIBLE = false
+      else
+        vim.cmd('Neotree filesystem reveal left')
+        _G.NEOTREE_VISIBLE = true
+      end
+    end, {})
+  }
 }
 
